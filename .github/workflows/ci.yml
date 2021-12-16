@@ -34,7 +34,7 @@ jobs:
         with:
           node-version: "5.9.x"
       - run: npm i
-      - run: npm run format:check
+      # - run: npm run format:check
       - run: npm test -- --coverage
         env:
           CI: true
@@ -100,7 +100,7 @@ jobs:
         with:
           node-version: "5.9.x"
       - run: npm i
-      - run: npm run format:check
+      # - run: npm run format:check
       - run: npm test -- --coverage
         env:
           CI: true
