@@ -6,7 +6,7 @@ This is a slimmed down version of sq1d123/dockerfilelint
 ---
 
 <p align="center">
-<img src="https://github.com/mrdoodles/dockerfilelint/workflows/Build and Push/badge.svg?branch=main&event=push" alt="CI Status"/>&nbsp;<img src="https://codecov.io/gh/mrdoodles/dockerfilelint/branch/main/graph/badge.svg" alt="Code Coverage" />
+<img src="https://github.com/mrdoodles/dockerfilelint/workflows/CI/badge.svg?branch=main&event=push" alt="CI Status"/>&nbsp;<img src="https://codecov.io/gh/mrdoodles/dockerfilelint/branch/main/graph/badge.svg" alt="Code Coverage" />
 </p>
 
 ---
