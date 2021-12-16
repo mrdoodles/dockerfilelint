@@ -1,0 +1,168 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - "main"
+
+  pull_request:
+    branches:
+      - "main"
+
+jobs:
+  validate-code:
+    if: github.event_name == 'pull_request'
+    timeout-minutes: 3
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Source checkout
+        uses: actions/checkout@v2.4.0
+        with:
+          fetch-depth: 0
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Use NodeJS
+        uses: actions/setup-node@v1
+        with:
+          node-version: "5.9.x"
+      - run: npm ci
+      - run: npm run format:check
+      - run: npm test -- --coverage
+        env:
+          CI: true
+
+      - name: Upload Test Coverage
+        uses: actions/upload-artifact@v1
+        with:
+          path: coverage
+          name: code-coverage
+
+      - name: Open Issue
+        if: failure()
+        run: |
+          curl --request POST \
+          --url https://api.github.com/repos/${{ github.repository }}/issues \
+          --header 'authorization: Bearer ${{ secrets.CUSTOM_ACTIONS_TOKEN }}' \
+          --header 'content-type: application/json' \
+          --data '{
+            "title": "Workflow failure for commit: ${{ github.sha }}",
+            "body": "This issue was automatically created by the GitHub Action workflow **${{ github.workflow }}**. \n\n The commit hash was: _${{ github.sha }}_.",
+            "assignees": ["${{ github.event.pull_request.user.login }}"]
+            }' \
+          --fail
+
+  build-and-push:
+    if: github.event_name == 'push'
+    timeout-minutes: 7
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: write
+    env:
+      DOCKER_USERNAME: mrdoodles
+      DOCKER_REPOSITORY: dockerfilelint
+      GITHUB_TOKEN: ${{ secrets.USTOM_ACTIONS_TOKEN}}
+    steps:
+      - name: Source checkout
+        uses: actions/checkout@v2.4.0
+
+      - name: Verify with commitlint
+        uses: wagoid/commitlint-github-action@v4.1.9
+        with:
+          configFile: ".github/configs/commitlintrc.yml"
+
+      # - name: Update version
+      #   if: ${{ event.name == 'pull_request'}}
+      #   id: bumper
+      #   uses: tomerfi/version-bumper-action@1.1.2
+      #   with:
+      #     changelog: true
+      #     preset: conventionalcommits
+      #     folder: ./
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Use NodeJS
+        uses: actions/setup-node@v1
+        with:
+          node-version: "5.9.x"
+      - run: npm ci
+      - run: npm run format:check
+      - run: npm test -- --coverage
+        env:
+          CI: true
+
+      - name: Upload Test Coverage
+        uses: actions/upload-artifact@v1
+        with:
+          path: coverage
+          name: code-coverage
+
+      - name: Build Project
+        run: yarn build
+
+      - name: Upload Build Folder
+        if: success()
+        uses: actions/upload-artifact@v1
+        with:
+          path: build
+          name: build
+
+      - name: Zip Assets
+        run: |
+          zip -r build.zip ./build
+          zip -r coverage.zip ./coverage
+
+      # - name: Automatic GitHub Release
+      #   uses: justincy/github-action-npm-release@2.0.1
+      #   id: release
+
+      # - uses: actions/setup-node@v1
+      #   if: steps.release.outputs.released == 'true'
+      #   with:
+      #     registry-url: 'https://npm.pkg.github.com'
+      # - name: Publish
+      #   if: steps.release.outputs.released == 'true'
+      #   run: npm publish
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # - name: Create Release
+      #   run: npx semantic-release
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.CUSTOM_ACTIONS_TOKEN }}
+
+      - name: Release
+        uses: ridedott/release-me-action@master
+        with:
+          dry-run: true
+          release-branches: '["main"]'
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ env.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      # - name: Build and tag the Docker image
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: .
+      #     file: Dockerfile
+      #     push: true
+      #     tags: |
+      #       ${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_REPOSITORY }}:${{ steps.bumper.outputs.new_version }}
+      #       ${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_REPOSITORY }}:latest
