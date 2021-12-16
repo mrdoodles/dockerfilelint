@@ -74,10 +74,10 @@ jobs:
       - name: Source checkout
         uses: actions/checkout@v2.4.0
 
-      - name: Verify with commitlint
-        uses: wagoid/commitlint-github-action@v4.1.9
-        with:
-          configFile: ".github/configs/commitlintrc.yml"
+      # - name: Verify with commitlint
+      #   uses: wagoid/commitlint-github-action@v4.1.9
+      #   with:
+      #     configFile: ".github/configs/commitlintrc.yml"
 
       # - name: Update version
       #   if: ${{ event.name == 'pull_request'}}
