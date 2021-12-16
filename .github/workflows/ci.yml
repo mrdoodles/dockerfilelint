@@ -33,17 +33,17 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "5.9.x"
-      - run: npm ci
-      - run: npm run format:check
-      - run: npm test -- --coverage
+      - run: npm i
+      # - run: npm run format:check
+      # - run: npm test -- --coverage
         env:
           CI: true
 
-      - name: Upload Test Coverage
-        uses: actions/upload-artifact@v1
-        with:
-          path: coverage
-          name: code-coverage
+      # - name: Upload Test Coverage
+      #   uses: actions/upload-artifact@v1
+      #   with:
+      #     path: coverage
+      #     name: code-coverage
 
       - name: Open Issue
         if: failure()
@@ -99,17 +99,17 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "5.9.x"
-      - run: npm ci
-      - run: npm run format:check
-      - run: npm test -- --coverage
+      - run: npm i
+      # - run: npm run format:check
+      # - run: npm test -- --coverage
         env:
           CI: true
 
-      - name: Upload Test Coverage
-        uses: actions/upload-artifact@v1
-        with:
-          path: coverage
-          name: code-coverage
+      # - name: Upload Test Coverage
+      #   uses: actions/upload-artifact@v1
+      #   with:
+      #     path: coverage
+      #     name: code-coverage
 
       - name: Build Project
         run: yarn build
@@ -124,7 +124,7 @@ jobs:
       - name: Zip Assets
         run: |
           zip -r build.zip ./build
-          zip -r coverage.zip ./coverage
+       #    zip -r coverage.zip ./coverage
 
       # - name: Automatic GitHub Release
       #   uses: justincy/github-action-npm-release@2.0.1
