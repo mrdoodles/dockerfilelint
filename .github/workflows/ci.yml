@@ -98,7 +98,7 @@ jobs:
       - name: Use NodeJS
         uses: actions/setup-node@v1
         with:
-          node-version: "5.9.x"
+          node-version: "5.9"
       - run: npm ci
       - run: npm run format:check
       - run: npm test -- --coverage
