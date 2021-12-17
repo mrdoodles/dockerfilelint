@@ -70,7 +70,7 @@ jobs:
     env:
       DOCKER_USERNAME: mrdoodles
       DOCKER_REPOSITORY: dockerfilelint
-      GITHUB_TOKEN: ${{ secrets.USTOM_ACTIONS_TOKEN}}
+      GITHUB_TOKEN: ${{ secrets.CUSTOM_ACTIONS_TOKEN }}
     steps:
       - name: Source checkout
         uses: actions/checkout@v2.4.0
