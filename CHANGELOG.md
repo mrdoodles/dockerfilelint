@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.5.0"></a>
+# 1.5.0 (2021-12-17)
+
+
+### Bug Fixes
+
+* add codeowners ([5c43b1e](https://github.com/replicatedhq/dockerfilelint/commit/5c43b1e))
+* commitlint  ([71eaca3](https://github.com/replicatedhq/dockerfilelint/commit/71eaca3))
+* disable npm ci, format and coverage ([8fb1c9d](https://github.com/replicatedhq/dockerfilelint/commit/8fb1c9d))
+* readme badge ([0135763](https://github.com/replicatedhq/dockerfilelint/commit/0135763))
+
+
+### Features
+
+* initial update ([22a8a11](https://github.com/replicatedhq/dockerfilelint/commit/22a8a11))
+
+
+
 <a name="1.4.0"></a>
 # [1.4.0](https://github.com/replicatedhq/dockerfilelint/compare/v1.3.0...v1.4.0) (2017-09-13)
 
