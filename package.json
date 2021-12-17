@@ -10,24 +10,23 @@
     "format": "prettier --write \"**/*.{js,jsx,ts,yml,yaml,json,css,scss,md}\"",
     "format:check": "prettier --check \"**/*.{js,jsx,ts,yml,yaml,json,css,scss,md}\"",
     "test": "nyc mocha",
-    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "release": "standard-version"
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/replicatedhq/dockerfilelint.git"
+    "url": "git+https://github.com/mrdoodles/dockerfilelint.git"
   },
   "keywords": [
     "dockerfile",
     "lint",
     "linter"
   ],
-  "author": "Marc Campbell",
+  "author": "Marc Campbell & Tim Preece",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/replicatedhq/dockerfilelint/issues"
+    "url": "https://github.com/mrdoodles/dockerfilelint/issues"
   },
-  "homepage": "https://github.com/replicatedhq/dockerfilelint#readme",
+  "homepage": "https://github.com/mrdoodles/dockerfilelint#readme",
   "dependencies": {
     "chalk": "^1.1.1",
     "cliui": "^3.1.0",
@@ -38,12 +37,10 @@
   },
   "devDependencies": {
     "chai": "^4.0.1",
-    "coveralls": "^2.11.6",
     "eslint": "^3.2.2",
     "eslint-config-defaults": "^9.0.0",
     "mocha": "^3.0.0",
     "nyc": "^10.1.2",
-    "prettier": "2.4.1",
-    "standard-version": "^4.0.0"
+    "prettier": "2.4.1"
   }
 }
