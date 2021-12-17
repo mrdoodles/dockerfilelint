@@ -1,14 +1,16 @@
 {
   "name": "dockerfilelint",
-  "version": "1.5.0",
+  "version": "1.0.0",
   "description": "A linter for Dockerfiles to find bugs and encourage best practices",
   "main": "./lib/index.js",
   "bin": {
     "dockerfilelint": "bin/dockerfilelint"
   },
   "scripts": {
+    "format": "prettier --write \"**/*.{js,jsx,ts,yml,yaml,json,css,scss,md}\"",
+    "format:check": "prettier --check \"**/*.{js,jsx,ts,yml,yaml,json,css,scss,md}\"",
     "test": "nyc mocha",
-    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "release": "standard-version"
   },
   "repository": {
@@ -29,6 +31,7 @@
   "dependencies": {
     "chalk": "^1.1.1",
     "cliui": "^3.1.0",
+    "codecov": "^3.8.3",
     "js-yaml": "^3.6.0",
     "lodash": "^4.3.0",
     "yargs": "^6.6.0"
@@ -38,8 +41,9 @@
     "coveralls": "^2.11.6",
     "eslint": "^3.2.2",
     "eslint-config-defaults": "^9.0.0",
-    "nyc": "^10.1.2",
     "mocha": "^3.0.0",
+    "nyc": "^10.1.2",
+    "prettier": "2.4.1",
     "standard-version": "^4.0.0"
   }
 }
