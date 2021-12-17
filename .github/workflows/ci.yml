@@ -32,17 +32,18 @@ jobs:
       - name: Use NodeJS
         uses: actions/setup-node@v1
         with:
-          node-version: "5.9.x"
-      - run: npm i
-      # - run: npm run format:check
-      # - run: npm test -- --coverage
+          node-version: "16.x"
+      - run: yarn
+      - run: yarn format:check
+      - run: yarn test
+      - run: yarn coverage
         env:
           CI: true
 
       # - name: Upload Test Coverage
       #   uses: actions/upload-artifact@v1
       #   with:
-      #     path: coverage
+      #     path: coverage.lcov
       #     name: code-coverage
 
       - name: Open Issue
@@ -98,33 +99,37 @@ jobs:
       - name: Use NodeJS
         uses: actions/setup-node@v1
         with:
-          node-version: "5.9.x"
-      - run: npm i
-      # - run: npm run format:check
-      # - run: npm test -- --coverage
+          node-version: "16.x"
+      - run: yarn
+      - run: yarn format:check
+      - run: yarn test
+      - run: yarn coverage
         env:
           CI: true
 
-      # - name: Upload Test Coverage
-      #   uses: actions/upload-artifact@v1
-      #   with:
-      #     path: coverage
-      #     name: code-coverage
-
-      - name: Build Project
-        run: yarn build
-
-      - name: Upload Build Folder
-        if: success()
+      - name: Upload Test Coverage
         uses: actions/upload-artifact@v1
         with:
-          path: build
-          name: build
+          path: coverage.lcov
+          name: code-coverage
 
-      - name: Zip Assets
-        run: |
-          zip -r build.zip ./build
-       #    zip -r coverage.zip ./coverage
+      - uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.lcov
+          fail_ci_if_error: true
+
+      # - name: Upload Build Folder
+      #   if: success()
+      #   uses: actions/upload-artifact@v1
+      #   with:
+      #     path: build
+      #     name: build
+
+      # - name: Zip Assets
+      #   run: |
+      #     zip -r build.zip ./build
+      ##    zip -r coverage.zip ./coverage
 
       # - name: Automatic GitHub Release
       #   uses: justincy/github-action-npm-release@2.0.1
